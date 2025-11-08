@@ -13,3 +13,10 @@ async function fetchBooks() {
     ratings: row.c[7].v
   }));
 }
+function downloadBook(url, title) {
+  if (checkRateLimit()) { // Local check + Firebase call
+    firebase.functions().httpsCallable('proxyDownload')({url, title});
+  } else {
+    alert('Limit reached: 10 downloads per hour.');
+  }
+}
